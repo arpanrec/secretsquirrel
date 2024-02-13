@@ -11,7 +11,6 @@ Data is only accessible to the user who created it.
 
 Authentication is done via basic auth header `Authorization: Basic <base64 encoded username:password>`.
 
-
 - username: GitHub username (not email)
 - password: GitHub personal access token.
 
@@ -59,7 +58,9 @@ request body:
 
 ```json
 {
-  "dns_names": ["example.com"],
+	"dns_names": [
+		"example.com"
+	]
 }
 ```
 
@@ -67,8 +68,8 @@ Response body:
 
 ```json
 {
-  "cert": "---BEGIN CERTIFICATE---\n...\n---END CERTIFICATE---",
-  "key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
+	"cert": "---BEGIN CERTIFICATE---\n...\n---END CERTIFICATE---",
+	"key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
 }
 ```
 
@@ -80,27 +81,27 @@ File location can be set via environment variable `SECURE_SERVER_CONFIG_FILE_PAT
 
 ```json
 {
-  "encryption": {
-    "gpg_private_key_path": "Path to GPG private key",
-    "public_key_path": "Path to GPG public key",
-    "gpg_private_key_password_path": "Password file for GPG private key",
-    "pgp_delete_key_files_after_startup": "Boolean, delete key files after startup"
-  },
-  "storage": {
-    "type": "Storage type, currently only supports: file, s3",
-    "config": "Storage config"
-  },
-  "users": {
-    "githubusername1": null,
-    "githubusername2": null
-  },
-  "pki": {
-    "openssl_root_ca_key_file": "Path to OpenSSL root CA key file",
-    "openssl_root_ca_cert_file": "Path to OpenSSL root CA cert file",
-    "openssl_root_ca_key_password_file": "Path to OpenSSL root CA key password file",
-    "openssl_root_ca_no_password_key_file": "Once the server is up it will create a password less key file, this is the path to that file, reason for this is the limitation of golang crypto package",
-    "openssl_delete_key_files_after_startup": "Boolean, delete key files after startup"
-  }
+	"encryption": {
+		"gpg_private_key_path": "Path to GPG private key",
+		"public_key_path": "Path to GPG public key",
+		"gpg_private_key_password_path": "Password file for GPG private key",
+		"pgp_delete_key_files_after_startup": "Boolean, delete key files after startup"
+	},
+	"storage": {
+		"type": "Storage type, currently only supports: file, s3",
+		"config": "Storage config"
+	},
+	"users": {
+		"githubusername1": null,
+		"githubusername2": null
+	},
+	"pki": {
+		"openssl_root_ca_key_file": "Path to OpenSSL root CA key file",
+		"openssl_root_ca_cert_file": "Path to OpenSSL root CA cert file",
+		"openssl_root_ca_key_password_file": "Path to OpenSSL root CA key password file",
+		"openssl_root_ca_no_password_key_file": "Once the server is up it will create a password less key file, this is the path to that file, reason for this is the limitation of golang crypto package",
+		"openssl_delete_key_files_after_startup": "Boolean, delete key files after startup"
+	}
 }
 ```
 
@@ -108,12 +109,12 @@ File location can be set via environment variable `SECURE_SERVER_CONFIG_FILE_PAT
 
 ```json
 {
-  "storage": {
-    "type": "file",
-    "config": {
-      "path": "Path to storage directory"
-    }
-  }
+	"storage": {
+		"type": "file",
+		"config": {
+			"path": "Path to storage directory"
+		}
+	}
 }
 ```
 
@@ -121,7 +122,8 @@ File location can be set via environment variable `SECURE_SERVER_CONFIG_FILE_PAT
 
 ### Deployment: GitLab Runner
 
-Upload the `.env` file to GitLab Secure Files. (GitLab Project -> Settings -> CI/CD -> Secure Files -> Upload `.env` File)
+Upload the `.env` file to GitLab Secure Files. (GitLab Project -> Settings -> CI/CD -> Secure Files -> Upload `.env`
+File)
 
 <details>
   <summary>GitLab Runner Installation</summary>
@@ -129,7 +131,8 @@ Upload the `.env` file to GitLab Secure Files. (GitLab Project -> Settings -> CI
 Deployment is done via [gitlab-runner](https://docs.gitlab.com/runner/install/linux-repository.html).
 Add the Server as gitlab-runner with shell executor, also make sure gitlab runner has root access.
 
-- Please check the [gitlab-runner](https://docs.gitlab.com/runner/install/linux-repository.html) for the latest installation instructions.
+- Please check the [gitlab-runner](https://docs.gitlab.com/runner/install/linux-repository.html) for the latest
+  installation instructions.
 
 ```bash
 echo "gitlab-runner ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/010-gitlab-runner >/dev/null
@@ -156,10 +159,11 @@ Tags: secureserver
 Run untagged jobs: False
 Details: Secure Server
 Configuration (optional):
-  - Paused: False
-  - Protected: False
-  - Lock to current projects: True
-Maximum job timeout: 600
+
+- Paused: False
+- Protected: False
+- Lock to current projects: True
+  Maximum job timeout: 600
 ```
 
 ```bash
@@ -187,7 +191,8 @@ Deployment is locked with branch name `main`, and when this is not a scheduled j
 
 ### Deployment: GitHub Actions
 
-Upload the base64 encoded `.env` file to GitHub Secrets as `ENVIRONMENT_FILE`. (GitHub Project -> Settings -> Secrets -> New repository secret)
+Upload the base64 encoded `.env` file to GitHub Secrets as `ENVIRONMENT_FILE`. (GitHub Project -> Settings -> Secrets ->
+New repository secret)
 
 ```bash
 base64 .env --wrap=0
@@ -196,7 +201,8 @@ base64 .env --wrap=0
 <details>
   <summary>Github Actions Self Hosted Runner</summary>
 
-Deployment is done via [GitHub Actions Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners).
+Deployment is done
+via [GitHub Actions Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners).
 Make sure GitHub Actions Self Hosted Runner has NOPASSWD root access.
 
 - Install GitHub Actions Self Hosted Runner
@@ -232,13 +238,15 @@ Download a copy of secure working directory from secure server and upload it to 
 
 ### Backup: GitLab Runner
 
-Upload the `.env` file to GitLab Secure Files. (GitLab Project -> Settings -> CI/CD -> Secure Files -> Upload `.env` File)
+Upload the `.env` file to GitLab Secure Files. (GitLab Project -> Settings -> CI/CD -> Secure Files -> Upload `.env`
+File)
 
 - For runner installation, [check this](#deployment-gitlab-runner).
 
 Backup is locked with branch name `main`.
 
-A timer job is scheduled to run every 6 hours via [Scheduled pipelines](https://docs.gitlab.com/ee/ci/pipelines/schedules.html).
+A timer job is scheduled to run every 6 hours
+via [Scheduled pipelines](https://docs.gitlab.com/ee/ci/pipelines/schedules.html).
 
 ```markdown
 Description: Backup Secure Server Working Directory
@@ -250,10 +258,12 @@ Activated: true
 
 ### Backup: GitHub Actions
 
-Upload the base64 encoded `.env` file to GitHub Secrets as `ENVIRONMENT_FILE`. (GitHub Project -> Settings -> Secrets -> New repository secret)
+Upload the base64 encoded `.env` file to GitHub Secrets as `ENVIRONMENT_FILE`. (GitHub Project -> Settings -> Secrets ->
+New repository secret)
 
 - For runner installation, [check this](#deployment-github-actions).
 
 Backup is locked with branch name `main`.
 
-A timer job is scheduled to run every 6 hours via [Scheduled Events](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events).
+A timer job is scheduled to run every 6 hours
+via [Scheduled Events](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events).
